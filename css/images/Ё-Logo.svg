@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26.002" height="29.385" viewBox="0 0 123 139">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 100px;
+        fill: #fff;
+        font-family: "Playfair Display";
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 11px;
+      }
+    </style>
+  </defs>
+  <text id="Ё" class="cls-1" x="31.25" y="107.794">Ё</text>
+  <rect class="cls-2" y="1" width="121" height="127" rx="35" ry="35"/>
+</svg>
