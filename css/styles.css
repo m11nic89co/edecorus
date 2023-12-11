@@ -1,0 +1,88 @@
+
+.top-conteiner {
+  display: grid;
+  text-align: center;
+  color: white;
+  min-height: 100vh;
+  align-content: center;
+  padding: 10px;
+  background-color: #000000c7;
+
+}
+.navbar{
+  background-color: #000000d4;
+}
+
+.text-top-conteiner {
+  padding: 2% 0;
+}
+
+.yodyear {
+  line-height: 0.6rem;
+  padding-bottom: 20px;
+}
+
+.year {
+  font-size: 0.8rem;
+}
+
+.hotline {
+  margin: 15px auto;
+
+}
+
+.emails {
+  line-height: 1rem;
+  margin-bottom: 3rem;
+  line-height: 1.3;
+
+}
+
+.sales {
+  margin: 8px;
+}
+
+.inn{
+  margin: 0.5rem;
+}
+.official{
+  margin: 3rem;
+}
+.vacancy {
+  margin: 2rem;
+}
+
+body {
+  background: url(images/storer1.jpg) no-repeat;
+  min-height: 100vh;
+  min-width: 100%;
+  background-position: 52%;
+  background-attachment: fixed;
+  background-size: cover;
+
+}
+
+h1, h2 {
+  font-family: 'Playfair Display', serif;
+  text-shadow: 0px 0px 20px #ffffffa3;
+}
+
+h6 {
+  margin: 2% 0 0;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+footer {
+  background-size: 0, 7em;
+  text-align: center;
+  color: white;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #000000c7;
+
+
+}
