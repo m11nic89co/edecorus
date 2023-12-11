@@ -1,0 +1,4 @@
+User-agent: *
+Crawl-delay: 10
+Host: https://edecorus.ru
+Sitemap: https://edecorus.ru/sitemap.xml
