@@ -141,6 +141,11 @@
 				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A64df44f3cd83e4aaba8cee2289a28e7b3a0caa534ac4af44070e8aae2e34c315&amp;source=constructor" width="320" height="300" frameborder="0" title="Карта: Краснодар"></iframe>
 				<hr>
 			</div>
+
+			<!-- Кнопка Реквизиты -->
+			<button type="button" class="btn btn-outline-light btn-rekvizity" data-toggle="modal" data-target="#reqModal" aria-label="Реквизиты">
+				<i class="far fa-file-alt" aria-hidden="true"></i> Реквизиты
+			</button>
 		</div>
 		<!-- <div class="official">
 			Официальный Дилер <br>
@@ -211,6 +216,79 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Модальное окно Реквизиты -->
+	<div class="modal fade" id="reqModal" tabindex="-1" role="dialog" aria-labelledby="reqModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+			<div class="modal-content req-modal">
+				<div class="modal-header">
+					<h5 class="modal-title" id="reqModalLabel">Реквизиты ООО «Ёдекор»</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="reqText">
+					<p class="req-line"><strong>ООО «Ёдекор»</strong></p>
+					<p class="req-line">Юридический адрес:<br>350022, КРАСНОДАРСКИЙ КРАЙ, Г.О. ГОРОД КРАСНОДАР, Г КРАСНОДАР, УЛ СЕВЕРОМОРСКАЯ, Д. 1/7</p>
+					<p class="req-line">Фактический адрес:<br>140152, Московская область, Раменский городской округ, деревня Кузнецово, ул. Центральная 176, склад «Ёдекор»</p>
+					<p class="req-line">ИНН 2311246970<br>ОГРН 1172375087125<br>КПП 231101001<br>ОКПО 19897004<br>ОКАТО 03401370000<br>ОКТМО 03701000</p>
+					<p class="req-line">Расчётный счёт: 40702810320000084750</p>
+					<p class="req-line">Название банка: ООО «Банк Точка»<br>БИК: 044525104<br>Корр. счёт: 30101810745374525104</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-copy-req" id="btnCopyReq">
+						<i class="far fa-copy" aria-hidden="true"></i> Скопировать
+					</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">
+						<i class="fas fa-times" aria-hidden="true"></i> Закрыть
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var btnCopy = document.getElementById('btnCopyReq');
+			var reqText = document.getElementById('reqText');
+			if (btnCopy && reqText) {
+				btnCopy.addEventListener('click', function() {
+					var text = reqText.innerText || reqText.textContent;
+					if (navigator.clipboard && navigator.clipboard.writeText) {
+						navigator.clipboard.writeText(text).then(function() {
+							var orig = btnCopy.innerHTML;
+							btnCopy.innerHTML = '<i class="fas fa-check"></i> Скопировано';
+							btnCopy.classList.add('btn-success');
+							btnCopy.classList.remove('btn-secondary');
+							setTimeout(function() {
+								btnCopy.innerHTML = orig;
+								btnCopy.classList.remove('btn-success');
+								btnCopy.classList.add('btn-secondary');
+							}, 1500);
+						});
+					} else {
+						var ta = document.createElement('textarea');
+						ta.value = text;
+						ta.style.position = 'fixed';
+						ta.style.left = '-9999px';
+						document.body.appendChild(ta);
+						ta.select();
+						document.execCommand('copy');
+						document.body.removeChild(ta);
+						var orig = btnCopy.innerHTML;
+						btnCopy.innerHTML = '<i class="fas fa-check"></i> Скопировано';
+						btnCopy.classList.add('btn-success');
+						btnCopy.classList.remove('btn-secondary');
+						setTimeout(function() {
+							btnCopy.innerHTML = orig;
+							btnCopy.classList.remove('btn-success');
+							btnCopy.classList.add('btn-secondary');
+						}, 1500);
+					}
+				});
+			}
+		});
+	</script>
 
 	<!-- Yandex.Metrika counter -->
 	<script type="text/javascript">
