@@ -295,6 +295,16 @@ body.page-home .yodyear p:first-of-type {
   font-size: 0.75rem;
   letter-spacing: 0.02em;
 }
+.social-logo {
+  width: 2em;
+  height: 2em;
+  display: block;
+}
+.social-logo-max {
+  background: #fff;
+  -webkit-mask: url(../max-messenger-sign-logo.svg) center/contain no-repeat;
+  mask: url(../max-messenger-sign-logo.svg) center/contain no-repeat;
+}
 
 h1, h2 {
   font-family: 'Playfair Display', serif;
