@@ -1,15 +1,9 @@
 (function () {
   var cfg = window.EDECORUS_MAX || {};
-  var PHONE_DIGITS = cfg.phoneDigits || '79882472355';
-  var PHONE_DISPLAY = cfg.phoneDisplay || '+7 (988) 247-23-55';
   var PHONE_E164 = cfg.phoneE164 || '+79882472355';
-  var PROFILE_URL = (cfg.profileUrl || '').trim();
-  var BOT_URL = (cfg.botUrl || '').trim();
-  var DIRECT_URL = BOT_URL || PROFILE_URL;
+  var PHONE_DISPLAY = cfg.phoneDisplay || '+7 (988) 247-23-55';
+  var CHAT_URL = (cfg.profileUrl || '').trim();
   var MAX_HOME = 'https://max.ru/';
-  var SHARE_URL =
-    'https://max.ru/:share?text=' +
-    encodeURIComponent('Здравствуйте! Торговый дом «Ёдекор». Телефон: ' + PHONE_DISPLAY);
 
   function isMobile() {
     return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
@@ -71,7 +65,6 @@
   function bindModalActions() {
     var btnOpen = document.getElementById('btnMaxOpenApp');
     var btnCopy = document.getElementById('btnMaxCopyPhone');
-    var btnShare = document.getElementById('btnMaxShare');
 
     if (btnOpen && !btnOpen.dataset.bound) {
       btnOpen.dataset.bound = '1';
@@ -96,33 +89,21 @@
         });
       });
     }
-
-    if (btnShare && !btnShare.dataset.bound) {
-      btnShare.dataset.bound = '1';
-      btnShare.addEventListener('click', function () {
-        openInMaxApp(SHARE_URL);
-      });
-    }
   }
 
   document.querySelectorAll('[data-max-chat]').forEach(function (link) {
     bindModalActions();
 
-    if (DIRECT_URL) {
-      link.setAttribute('href', DIRECT_URL);
-      if (!isMobile()) {
-        link.setAttribute('target', '_blank');
-        link.setAttribute('rel', 'noopener noreferrer');
-      } else {
-        link.removeAttribute('target');
-        link.removeAttribute('rel');
-      }
+    if (CHAT_URL) {
+      link.setAttribute('href', CHAT_URL);
+      link.removeAttribute('target');
+      link.removeAttribute('rel');
       link.addEventListener('click', function (event) {
         if (!isMobile()) {
           return;
         }
         event.preventDefault();
-        openInMaxApp(DIRECT_URL);
+        openInMaxApp(CHAT_URL);
       });
       return;
     }
@@ -136,7 +117,7 @@
       if (isMobile()) {
         copyText(PHONE_E164, function () {
           openInMaxApp(MAX_HOME);
-          setTimeout(showMaxModal, 400);
+          setTimeout(showMaxModal, 350);
         });
       } else {
         showMaxModal();
