@@ -93,7 +93,7 @@
 
 			<!-- Social: MAX -->
 			<div class="social">
-				<a href="https://max.ru/chat?phone=79882472355" data-max-chat aria-label="Написать в MAX: +7 (988) 247-23-55">
+				<a href="#" data-max-chat aria-label="Написать в MAX: +7 (988) 247-23-55">
 					<img src="css/images/max-icon.png" alt="" class="social-logo social-logo-max" width="48" height="48" decoding="async">
 					<span class="social-label">MAX</span>
 				</a>
@@ -163,6 +163,34 @@
 	</div>
 
 	<div id="site-footer-root"></div>
+
+	<!-- MAX: поиск по номеру (официально нет ссылки chat?phone=) -->
+	<div class="modal fade" id="maxChatModal" tabindex="-1" role="dialog" aria-labelledby="maxChatModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content req-modal">
+				<div class="modal-header">
+					<h5 class="modal-title" id="maxChatModalLabel">Написать в MAX</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-2"><strong id="maxModalPhone">+7 (988) 247-23-55</strong></p>
+					<p class="small mb-3">В MAX нельзя открыть чат по номеру одной ссылкой (как WhatsApp). Номер скопирован — откройте приложение и найдите контакт в поиске.</p>
+					<ol class="small pl-3 mb-0">
+						<li>Вкладка «Чаты» → строка поиска</li>
+						<li>Введите номер <strong>+7 (988) 247-23-55</strong></li>
+						<li>Нажмите «Найти по номеру»</li>
+					</ol>
+				</div>
+				<div class="modal-footer flex-column">
+					<button type="button" class="btn btn-primary btn-block" id="btnMaxOpenApp">Открыть MAX</button>
+					<button type="button" class="btn btn-secondary btn-block" id="btnMaxCopyPhone">Скопировать номер</button>
+					<button type="button" class="btn btn-outline-primary btn-block" id="btnMaxShare">Поделиться в MAX</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Модальное окно Реквизиты -->
 	<div class="modal fade" id="reqModal" tabindex="-1" role="dialog" aria-labelledby="reqModalLabel" aria-hidden="true">
@@ -238,6 +266,7 @@
 	</script>
 
 	<script src="js/site-footer.js"></script>
+	<script src="js/max-config.js"></script>
 	<script src="js/max-chat-link.js"></script>
 
 	<!-- Yandex.Metrika counter -->
