@@ -296,14 +296,19 @@ body.page-home .yodyear p:first-of-type {
   letter-spacing: 0.02em;
 }
 .social-logo {
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
   display: block;
+  flex-shrink: 0;
 }
 .social-logo-max {
-  background: #fff;
-  -webkit-mask: url(../max-messenger-sign-logo.svg) center/contain no-repeat;
-  mask: url(../max-messenger-sign-logo.svg) center/contain no-repeat;
+  border-radius: 0.4rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.social a:hover .social-logo-max {
+  transform: scale(1.06);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
 }
 
 h1, h2 {
