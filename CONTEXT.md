@@ -18,7 +18,8 @@
 | Домен | https://edecorus.ru/ |
 | Репозиторий | https://github.com/m11nic89co/edecorus |
 | Ветка | `main` |
-| Деплой | GitHub Pages (`CNAME` → edecorus.ru) |
+| Деплой (сейчас) | GitHub Pages (`CNAME` → edecorus.ru) |
+| Деплой (план) | Yandex Object Storage, free tier — см. `docs/MIGRATION-YANDEX-FREE.md` |
 
 **Деятельность:** производство и оптовые продажи (продукты питания, товары для дома, ковка, капельный полив, аксессуары для хранения).
 
@@ -170,6 +171,7 @@ git push origin main
 ## Незавершено
 
 - [ ] `profileUrl` в `max-config.js` (ждём ссылку `https://max.ru/u/...`).
+- [ ] Миграция на Yandex Cloud: этапы 1–4 в `docs/MIGRATION-YANDEX-FREE.md` (нужны ключи в YC и GitHub Secrets).
 - [ ] Открыть в Cursor папку `C:\Users\AM\Projects\Y\edecorus.ru`, если ещё открыта `MYDISK\Projects\...`.
 - [ ] По желанию: иконка MAX на других страницах (сейчас только contact).
 

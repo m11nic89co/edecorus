@@ -46,3 +46,5 @@ winget install Git.Git
 Полный контекст (пути, MAX, Drive, задачи): **[CONTEXT.md](CONTEXT.md)**.
 
 **На этом ПК:** разработка — `C:\Users\AM\Projects\Y\edecorus.ru`, архив Drive — `C:\Users\AM\MYDISK\Yodekor\edecorus\`. Не открывать в Cursor копию под `MYDISK\Projects\`.
+
+**Миграция хостинга (бесплатно):** [docs/MIGRATION-YANDEX-FREE.md](docs/MIGRATION-YANDEX-FREE.md) — Yandex Object Storage + GitHub Actions.

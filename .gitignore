@@ -1,5 +1,7 @@
 # Локальные пути (не коммитить)
 scripts/workspace-paths.local.ps1
+scripts/yandex-deploy-config.local.ps1
+scripts/yc-keys.local.env
 
 # OS / редактор
 Thumbs.db

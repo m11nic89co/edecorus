@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Настройка Yandex Cloud — Ёдекор</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    h1 { font-size: 1.35rem; }
+    .step { border: 1px solid #ccc; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+    .step.done { background: #e8f5e9; border-color: #81c784; }
+    a.btn { display: inline-block; background: #1565c0; color: #fff; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; margin: 0.25rem 0.25rem 0.25rem 0; }
+    a.btn:hover { background: #0d47a1; }
+    code { background: #f5f5f5; padding: 0.1em 0.35em; border-radius: 4px; }
+    ol { padding-left: 1.2rem; }
+  </style>
+</head>
+<body>
+  <h1>Миграция edecorus.ru на Yandex Cloud</h1>
+  <p>Отмечайте шаги по мере выполнения. Подробности: <code>docs/YC-SETUP-CLICKS.md</code></p>
+
+  <div class="step">
+    <strong>1. Войти в Yandex Cloud</strong>
+    <p><a class="btn" href="https://console.yandex.cloud/" target="_blank" rel="noopener">Открыть консоль</a></p>
+  </div>
+
+  <div class="step">
+    <strong>2. Создать бакет и хостинг</strong>
+    <p>Следуйте блокам A–C в <code>docs/YC-SETUP-CLICKS.md</code></p>
+  </div>
+
+  <div class="step">
+    <strong>3. Залить сайт</strong>
+    <p>В PowerShell из папки проекта:</p>
+    <pre>pip install awscli
+aws configure --profile yc
+copy scripts\yandex-deploy-config.example.ps1 scripts\yandex-deploy-config.local.ps1
+.\scripts\deploy-yandex-s3.ps1</pre>
+    <p>Проверка: <a href="https://edecorus.ru.website.yandexcloud.net" target="_blank" rel="noopener">тестовый URL бакета</a></p>
+  </div>
+
+  <div class="step">
+    <strong>4. GitHub Secrets</strong>
+    <p><a class="btn" href="https://github.com/m11nic89co/edecorus/settings/secrets/actions" target="_blank" rel="noopener">Secrets Actions</a></p>
+    <p><code>YC_SA_ACCESS_KEY_ID</code>, <code>YC_SA_SECRET_ACCESS_KEY</code></p>
+  </div>
+
+  <div class="step">
+    <strong>5. DNS (после проверки)</strong>
+    <p>CNAME <code>edecorus.ru</code> → <code>edecorus.ru.website.yandexcloud.net</code></p>
+  </div>
+</body>
+</html>
