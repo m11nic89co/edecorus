@@ -1,0 +1,13 @@
+# Локальные пути (не коммитить)
+scripts/workspace-paths.local.ps1
+
+# OS / редактор
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.tmp
+*~
+
+# Артефакты Google Drive при конфликтах
+*conflicted copy*
+*.driveupload*

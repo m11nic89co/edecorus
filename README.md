@@ -40,3 +40,11 @@ winget install Git.Git
 - `vacancies.html` — вакансии
 - `css/` — стили и изображения
 - Страницы каталога: `aksessuary-dlya-hraneniya-instrumentov.html`, `kapelnyj-poliv.html` и др.
+
+## Контекст для разработки
+
+Подробности проекта, контакты, MAX, деплой и открытые задачи — в **[CONTEXT.md](CONTEXT.md)**.
+
+## Google Drive и Cursor
+
+Не держите рабочую папку проекта внутри синхронизации Google Drive — возможны блокировки и дубликаты файлов. Локально — разработка; на Drive — архив через `scripts/sync-to-google-drive.ps1`. Подробности в [CONTEXT.md](CONTEXT.md#google-drive-и-cursor-важно).
