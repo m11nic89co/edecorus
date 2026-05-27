@@ -23,6 +23,7 @@ body.page-home .top-conteiner {
   flex: 1;
   min-height: 0;
 }
+body.page-home .site-footer,
 body.page-home footer {
   flex-shrink: 0;
 }
@@ -340,32 +341,82 @@ p {
 .text-top-conteiner p:last-child,
 .top-conteiner p:last-child { margin-bottom: 0; }
 
-/* Футер: сильное затемнение снизу, единый стиль на всех страницах */
-footer {
+/* Футер: единый стиль на всех страницах */
+.site-footer,
+footer.site-footer {
   text-align: center;
-  color: white;
+  color: #fff;
   width: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 35%, rgba(0, 0, 0, 0.2) 70%, transparent 100%);
-  padding-top: 2rem;
+  flex-shrink: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.94) 0%,
+    rgba(0, 0, 0, 0.72) 45%,
+    rgba(0, 0, 0, 0.35) 75%,
+    transparent 100%
+  );
+  padding: 2rem 0 1.25rem;
+  margin-top: auto;
+}
+.site-footer__inner {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.site-footer p {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.site-footer__legal {
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+}
+.site-footer__rights {
+  opacity: 0.88;
+}
+.site-footer__privacy {
+  margin-bottom: 0;
+  margin-top: 0.35rem;
+}
+.site-footer__link {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.site-footer__link:hover {
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+}
+
+body.page-catalog {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f5f6f8;
+  color: #212529;
+  background-attachment: scroll;
+}
+body.page-catalog .page-catalog__main {
+  flex: 1 0 auto;
   padding-bottom: 1rem;
 }
-footer .container {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+body.page-catalog .site-footer {
+  flex-shrink: 0;
 }
-footer p,
-footer a {
-  margin: 0 0 0.35rem 0;
-  font-size: 0.875rem;
-  line-height: 1.4;
+
+body.page-vacancies {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-footer a {
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-}
-footer a:hover {
-  text-decoration: underline;
+body.page-vacancies .page-wrap {
+  flex: 1 0 auto;
+  min-height: 0;
 }
 
 /* Модальное окно: читаемые отступы в тексте */
