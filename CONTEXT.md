@@ -1,6 +1,11 @@
 # Контекст проекта edecorus.ru
 
-Документ для разработчиков и AI-ассистентов: актуальное состояние сайта, ограничения и незавершённые задачи.
+Документ для разработчиков и AI-ассистентов: состояние сайта, пути на этом ПК, ограничения, открытые задачи.
+
+**Обновлено:** 2026-05-27  
+**Последний коммит в репозитории:** смотреть `git log -1` на ветке `main`.
+
+---
 
 ## Организация и сайт
 
@@ -17,6 +22,44 @@
 
 **Деятельность:** производство и оптовые продажи (продукты питания, товары для дома, ковка, капельный полив, аксессуары для хранения).
 
+---
+
+## Рабочие папки на этом ПК (настроено)
+
+| Путь | Назначение | Cursor / git |
+|------|------------|----------------|
+| **`C:\Users\AM\Projects\Y\edecorus.ru`** | основная разработка, коммиты, push | **да** |
+| `C:\Users\AM\MYDISK\Yodekor\edecorus\` | архив на Google Drive: `site/`, `docs/` | нет |
+| `C:\Users\AM\MYDISK\Projects\Y\edecorus.ru` | старая копия внутри синхронизации Drive | **не использовать** |
+
+**Google Drive на этом компьютере:** диск `G:\` → ярлык «My Drive» → корень синхронизации **`C:\Users\AM\MYDISK`**.  
+Любая папка под `MYDISK\` уходит в облако; одновременная работа Cursor + Drive в одной папке даёт блокировки и «conflicted copy».
+
+Локальный конфиг (не в git): `scripts/workspace-paths.local.ps1`
+
+```powershell
+$LocalDevRoot = 'C:\Users\AM\Projects\Y\edecorus.ru'
+$GoogleDriveRoot = 'C:\Users\AM\MYDISK\Yodekor\edecorus'
+```
+
+### Скрипты
+
+| Скрипт | Действие |
+|--------|----------|
+| `scripts/setup-local-workspace.ps1` | однократно: клон в Projects, папка архива, `workspace-paths.local.ps1` |
+| `scripts/check-google-drive-path.ps1` | проверка: проект не внутри MYDISK/Drive |
+| `scripts/sync-to-google-drive.ps1` | копия сайта → `$GoogleDriveRoot\site\`, `drive-archive\` → `\docs\` |
+
+**Источник правды для сайта:** GitHub `main`, не Google Drive.
+
+### Google Drive: Stream и Mirror
+
+- **Stream** — файлы в основном в облаке, локально кэш ([справка](https://support.google.com/drive/answer/13401938)).
+- **Mirror** — полная копия на диске; при активном редактировании чаще блокировки.
+- Папку с **git + Cursor** не добавлять в «Синхронизация папок с компьютера» в Drive.
+
+---
+
 ## Технологии
 
 - Статический сайт: HTML + Bootstrap 4.5.2 (CDN) + `css/styles.css`
@@ -24,6 +67,9 @@
 - JS: `js/site-footer.js`, `js/max-config.js`, `js/max-chat-link.js`
 - Шрифты: Google Fonts (Playfair Display), Font Awesome (kit)
 - Метрика: Яндекс.Метрика на страницах с полным шаблоном
+- Prettier в `.vscode/settings.json` (format on save)
+
+---
 
 ## Структура страниц
 
@@ -39,6 +85,8 @@
 
 Каталог: класс `page-catalog`, единый футер через `site-footer.js`.
 
+---
+
 ## Контакты на сайте
 
 | Назначение | Значение |
@@ -51,134 +99,101 @@
 | Бухгалтерия | buh@edecorus.ru |
 | Руководство | ceo@edecorus.ru |
 
-**Удалено по запросу:** домены и почты `edecorus.com.ru` (opt/kp/offer/direktor и т.п.) — не восстанавливать без явной просьбы.
+**Удалено по запросу:** домены и почты `edecorus.com.ru` — не восстанавливать без явной просьбы.
 
-## MAX (мессенджер) — важно
+---
+
+## MAX (мессенджер)
 
 ### Цель
 
-По клику на иконку MAX на **мобильном** — сразу открыть **чат с сотрудником** (+7 988 247-23-55), без бизнес-бота и без поиска по номеру.
+По клику на иконку MAX на **мобильном** — сразу чат с сотрудником (+7 988 247-23-55). Бизнес-бот не используется.
 
-### Ограничения MAX (официально)
+### Ограничения
 
-- Ссылки `https://max.ru/chat?phone=...` **не работают** («ссылка устарела»).
-- По номеру телефона **нельзя** сделать публичную ссылку (нет аналога `wa.me`).
-- Рабочий вариант для личного чата: **`https://max.ru/u/<код>`** из «Пригласить друзей» / «Пригласить по ссылке».
+- `https://max.ru/chat?phone=...` — **не работает**.
+- Публичной ссылки по номеру нет (нет `wa.me`).
+- Рабочий вариант: **`https://max.ru/u/<код>`** (Пригласить друзей / Пригласить по ссылке).
 
-### Реализация на сайте
+### Код
 
-- `js/max-config.js` — `profileUrl` (пока **пусто**), телефон сотрудника.
-- `js/max-chat-link.js` — элементы `[data-max-chat]`:
-  - если `profileUrl` задан → на мобильном `openInMaxApp(profileUrl)` (Android: intent `ru.oneme.app`);
-  - если пусто → копирование номера, открытие MAX, модалка `#maxChatModal` с поиском по номеру.
-- Иконка: `css/images/max-icon.png`, стили `.social-logo-max` в `styles.css`.
-- MAX только на `contact.html` (не на всех страницах).
+- `js/max-config.js` — `profileUrl` (**пока пусто**), телефоны.
+- `js/max-chat-link.js` — `[data-max-chat]`: с `profileUrl` → открытие MAX (Android: intent `ru.oneme.app`); без ссылки → копирование номера + модалка `#maxChatModal`.
+- Иконка: `css/images/max-icon.png`, класс `.social-logo-max`.
+- MAX только на `contact.html`.
 
-### Как получить `profileUrl` (для владельца +79882472355)
+### Получить profileUrl
 
-1. Профиль (внизу) → «Пригласить друзей» → «Скопировать ссылку».
-2. Или Контакты → + → «Пригласить по ссылке» → себе в «Избранное».
-3. Или web.max.ru → Профиль → Пригласить друзей.
-4. Вставить в `js/max-config.js` → `profileUrl: 'https://max.ru/u/...'`.
+1. Профиль → «Пригласить друзей» → «Скопировать ссылку».
+2. Контакты → + → «Пригласить по ссылке» → себе в «Избранное».
+3. web.max.ru → Профиль → Пригласить друзей.
+4. Вставить в `js/max-config.js`: `profileUrl: 'https://max.ru/u/...'`.
 
-### Бизнес-бот (не используется)
-
-Регистрация на business.max.ru, бот `id2311246970_bot` — **отложено**; пользователю нужен простой чат с сотрудником, не корпоративный бот.
+---
 
 ## Ключевые файлы
 
 ```
-js/max-config.js      — настройки MAX (profileUrl, телефон)
-js/max-chat-link.js   — клик по MAX, intent Android, модалка
-js/site-footer.js     — единый футер + модалка политики
-css/styles.css        — стили, футер, MAX-иконка
-contact.html          — контакты, модалки реквизитов и MAX
+js/max-config.js       — MAX: profileUrl, телефон
+js/max-chat-link.js    — клик MAX, intent, модалка
+js/site-footer.js      — футер + политика
+css/styles.css         — стили, MAX, футер
+contact.html           — контакты, MAX, реквизиты
+CONTEXT.md             — этот файл
+.gitignore             — workspace-paths.local.ps1 и др.
+drive-archive/         — документы для копии на Drive (docs/)
+scripts/               — Drive и проверка путей
 ```
 
-## Футер
-
-- © 2017–2026, ОГРН 1172375087125
-- Ссылка на модалку политики конфиденциальности
-- Подключается скриптом, если на странице ещё нет `.site-footer`
-
-## Google Drive и Cursor (важно)
-
-### Вы правы: конфликт возможен
-
-Если **и Cursor, и Google Drive for desktop** работают с **одной и той же папкой**, типичны проблемы:
-
-- блокировка файла при сохранении («file is locked»);
-- дубликаты при расхождении версий (Google [сохраняет обе копии](https://support.google.com/drive/answer/13401938));
-- сбои у редакторов из‑за «атомарного» сохранения (временный файл → переименование), пока Drive синхронизирует;
-- лишняя нагрузка на `.git` (тысячи мелких объектов) — Drive не умеет исключать `.git` ([официально нет ignore для подпапок](https://support.google.com/drive/answer/10838124)).
-
-У Cursor отдельно бывают гонки **Cloud Sync / индекса** с git — это не Google Drive, но при облачной папке риск выше. Для кода надёжнее **git + GitHub**, а не живая синхронизация папки проекта.
-
-### Рекомендуемая схема (две «стороны»)
-
-| Место | Назначение | Cursor |
-|-------|------------|--------|
-| **Локально вне Drive** например `C:\Users\AM\Projects\Y\edecorus.ru` | разработка, git, деплой | **да** |
-| **Google Drive** например `G:\My Drive\Ёдекор\edecorus\` | архив, документы, копия сайта | **нет** |
-
-**На этом ПК:** Google Drive (`G:\`) → ярлык «My Drive» → **`C:\Users\AM\MYDISK`**.  
-Папка `MYDISK\Projects\Y\edecorus.ru` **синхронизируется с облаком** — для Cursor нежелательна.
-
-| Путь | Роль |
-|------|------|
-| `C:\Users\AM\Projects\Y\edecorus.ru` | разработка, Cursor, git |
-| `C:\Users\AM\MYDISK\Yodekor\edecorus\` | архив на Drive (`site/`, `docs/`) |
-
-Однократная настройка: `.\scripts\setup-local-workspace.ps1`  
-Проверка: `.\scripts\check-google-drive-path.ps1`
-
-### Синхронизация с Drive без конфликта
-
-1. Скопировать `scripts/workspace-paths.example.ps1` → `scripts/workspace-paths.local.ps1` (в git не попадает).
-2. Указать `$GoogleDriveRoot`.
-3. После правок на сайте (или по расписанию):  
-   `.\scripts\sync-to-google-drive.ps1`  
-   → на Drive: `site/` (копия HTML/CSS/JS), `docs/` (из `drive-archive/`).
-
-**Источник правды для сайта:** GitHub (`main`), не Google Drive.
-
-### Настройки Google Drive (официально)
-
-- Режим **Stream files** для «Мой диск» обычно легче для диска, чем **Mirror** ([справка](https://support.google.com/drive/answer/13401938)).
-- Папку проекта **не** добавлять в «Папки с компьютера» для зеркалирования, если в ней git и Cursor.
-- Перед сменой Mirror ↔ Stream дождаться окончания синхронизации ([предупреждение Google](https://support.google.com/drive/answer/16631477)).
-
-### Файлы в репозитории
-
-- `scripts/check-google-drive-path.ps1` — проверка пути.
-- `scripts/sync-to-google-drive.ps1` — копия на Drive.
-- `drive-archive/` — документы для облака (не обязательно в git).
+---
 
 ## Git и деплой
 
-- Коммиты — **только по явной просьбе** пользователя.
-- После push в `main` — GitHub Pages, проверка через 1–3 мин, жёсткое обновление Ctrl+F5.
+```powershell
+cd C:\Users\AM\Projects\Y\edecorus.ru
+git status
+git add ...
+git commit -m "..."
+git push origin main
+```
+
+После push: GitHub Pages через 1–3 мин, проверка Ctrl+F5.
+
+Опционально бэкап на Drive:
+
+```powershell
+.\scripts\sync-to-google-drive.ps1
+```
+
+---
 
 ## Незавершено
 
-- [ ] Вставить `profileUrl` в `max-config.js` (ждём ссылку `https://max.ru/u/...` от сотрудника).
-- [ ] При необходимости: иконка MAX на других страницах (сейчас только contact).
+- [ ] `profileUrl` в `max-config.js` (ждём ссылку `https://max.ru/u/...`).
+- [ ] Открыть в Cursor папку `C:\Users\AM\Projects\Y\edecorus.ru`, если ещё открыта `MYDISK\Projects\...`.
+- [ ] По желанию: иконка MAX на других страницах (сейчас только contact).
+
+---
 
 ## Не делать без запроса
 
-- Коммиты и push без просьбы.
-- Возврат почт/доменов `edecorus.com.ru`.
+- Возврат `edecorus.com.ru`.
 - Ссылки MAX `chat?phone=`.
-- Сложная интеграция business.max.ru / боты / CRM.
-- Лишние markdown-файлы и рефакторинг «на будущее».
+- business.max.ru / боты / CRM без запроса.
+- Работа в `MYDISK\Projects\Y\edecorus.ru` как в основной папке Cursor.
 
-## История изменений (кратко)
+---
 
-- Замена WhatsApp на MAX, официальная иконка.
+## История (кратко)
+
+- WhatsApp → MAX, иконка max.ru.
 - Телефон в шапке: 8(988)2472355.
-- Отказ от `chat?phone=`, переход на profileUrl + упрощённая модалка.
+- Отказ от `chat?phone=`, личная `profileUrl`, упрощённая модалка.
 - Единый футер, политика конфиденциальности.
+- Разделение: разработка в `Projects\`, архив в `MYDISK\Yodekor\edecorus\`, скрипты Drive, `CONTEXT.md`.
 
-## Язык общения
+---
+
+## Язык
 
 Ответы пользователю — **на русском**.

@@ -43,8 +43,6 @@ winget install Git.Git
 
 ## Контекст для разработки
 
-Подробности проекта, контакты, MAX, деплой и открытые задачи — в **[CONTEXT.md](CONTEXT.md)**.
+Полный контекст (пути, MAX, Drive, задачи): **[CONTEXT.md](CONTEXT.md)**.
 
-## Google Drive и Cursor
-
-Не держите рабочую папку проекта внутри синхронизации Google Drive — возможны блокировки и дубликаты файлов. Локально — разработка; на Drive — архив через `scripts/sync-to-google-drive.ps1`. Подробности в [CONTEXT.md](CONTEXT.md#google-drive-и-cursor-важно).
+**На этом ПК:** разработка — `C:\Users\AM\Projects\Y\edecorus.ru`, архив Drive — `C:\Users\AM\MYDISK\Yodekor\edecorus\`. Не открывать в Cursor копию под `MYDISK\Projects\`.
