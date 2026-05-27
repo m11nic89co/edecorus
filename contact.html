@@ -164,9 +164,9 @@
 
 	<div id="site-footer-root"></div>
 
-	<!-- MAX: поиск по номеру (официально нет ссылки chat?phone=) -->
+	<!-- MAX: официально нет ссылки chat?phone= — см. help.max.ru -->
 	<div class="modal fade" id="maxChatModal" tabindex="-1" role="dialog" aria-labelledby="maxChatModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 			<div class="modal-content req-modal">
 				<div class="modal-header">
 					<h5 class="modal-title" id="maxChatModalLabel">Написать в MAX</h5>
@@ -174,19 +174,37 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					<p class="mb-2"><strong id="maxModalPhone">+7 (988) 247-23-55</strong></p>
-					<p class="small mb-3">В MAX нельзя открыть чат по номеру одной ссылкой (как WhatsApp). Номер скопирован — откройте приложение и найдите контакт в поиске.</p>
-					<ol class="small pl-3 mb-0">
-						<li>Вкладка «Чаты» → строка поиска</li>
-						<li>Введите номер <strong>+7 (988) 247-23-55</strong></li>
-						<li>Нажмите «Найти по номеру»</li>
+				<div class="modal-body text-left">
+					<p class="mb-2 text-center"><strong id="maxModalPhone">+7 (988) 247-23-55</strong></p>
+					<p class="small mb-3">Номер скопирован. В MAX нет ссылки «как wa.me» — поиск по номеру только внутри приложения (<a href="https://help.max.ru/help/contacts/kak-priglasit-v-max-nuzhnogo-cheloveka" class="text-light" target="_blank" rel="noopener noreferrer">справка MAX</a>).</p>
+					<p class="small font-weight-bold mb-1">Для клиента — как написать:</p>
+					<ol class="small pl-3 mb-3">
+						<li>Откройте MAX (кнопка ниже)</li>
+						<li>Вкладка <strong>«Чаты»</strong> → строка поиска</li>
+						<li>Введите <strong>+7 988 2472355</strong> или вставьте из буфера</li>
+						<li>Нажмите <strong>«Найти по номеру»</strong> → «Написать»</li>
 					</ol>
+					<details class="max-owner-help small">
+						<summary>Владельцу +7 (988) 247-23-55: как получить ссылку для сайта (без QR у имени)</summary>
+						<div class="mt-2">
+							<p class="mb-2"><strong>Способ 1 — чаще всего работает</strong><br>
+							Внизу экрана вкладка <strong>«Профиль»</strong> (иконка человека) → под именем <strong>«Пригласить друзей»</strong> → <strong>«Скопировать ссылку»</strong>.</p>
+							<p class="mb-2"><strong>Способ 2 — с компьютера</strong><br>
+							<a href="https://web.max.ru/" class="text-light" target="_blank" rel="noopener noreferrer">web.max.ru</a> → войти под этим номером → <strong>Профиль</strong> → <strong>Пригласить друзей</strong> → <strong>Скопировать ссылку</strong>.</p>
+							<p class="mb-2"><strong>Способ 3 — через «Контакты»</strong><br>
+							<strong>Контакты</strong> → <strong>+</strong> (справа вверху) → <strong>Пригласить по ссылке</strong> → отправьте себе в «Избранное» → в тексте будет <code>https://max.ru/u/...</code>.</p>
+							<p class="mb-2"><strong>Способ 4 — если есть QR</strong><br>
+							На главном экране аватар слева вверху → QR → <strong>Поделиться</strong>.</p>
+							<p class="mb-2"><strong>Способ 5 — для ООО «Ёдекор» (надёжно для сайта)</strong><br>
+							Чат-бот на <a href="https://business.max.ru/" class="text-light" target="_blank" rel="noopener noreferrer">business.max.ru</a> → ссылка вида <code>https://max.ru/имя_бота</code>. Вставьте её в <code>js/max-config.js</code> в поле <code>botUrl</code>.</p>
+							<p class="mb-0">Проверьте: <strong>Настройки → Безопасность</strong> — выключен «Безопасный режим», разрешён поиск по номеру. Ссылку пришлите разработчику сайта — подключим одним кликом.</p>
+						</div>
+					</details>
 				</div>
 				<div class="modal-footer flex-column">
 					<button type="button" class="btn btn-primary btn-block" id="btnMaxOpenApp">Открыть MAX</button>
 					<button type="button" class="btn btn-secondary btn-block" id="btnMaxCopyPhone">Скопировать номер</button>
-					<button type="button" class="btn btn-outline-primary btn-block" id="btnMaxShare">Поделиться в MAX</button>
+					<button type="button" class="btn btn-outline-primary btn-block" id="btnMaxShare">Поделиться текстом в MAX</button>
 				</div>
 			</div>
 		</div>

@@ -4,6 +4,8 @@
   var PHONE_DISPLAY = cfg.phoneDisplay || '+7 (988) 247-23-55';
   var PHONE_E164 = cfg.phoneE164 || '+79882472355';
   var PROFILE_URL = (cfg.profileUrl || '').trim();
+  var BOT_URL = (cfg.botUrl || '').trim();
+  var DIRECT_URL = BOT_URL || PROFILE_URL;
   var MAX_HOME = 'https://max.ru/';
   var SHARE_URL =
     'https://max.ru/:share?text=' +
@@ -33,8 +35,9 @@
   }
 
   function copyText(text, onDone) {
+    var done = onDone || function () {};
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(onDone).catch(fallbackCopy);
+      navigator.clipboard.writeText(text).then(done).catch(fallbackCopy);
       return;
     }
     fallbackCopy();
@@ -48,7 +51,7 @@
       ta.select();
       try {
         document.execCommand('copy');
-        onDone();
+        done();
       } catch (e) {
         /* ignore */
       }
@@ -105,8 +108,8 @@
   document.querySelectorAll('[data-max-chat]').forEach(function (link) {
     bindModalActions();
 
-    if (PROFILE_URL) {
-      link.setAttribute('href', PROFILE_URL);
+    if (DIRECT_URL) {
+      link.setAttribute('href', DIRECT_URL);
       if (!isMobile()) {
         link.setAttribute('target', '_blank');
         link.setAttribute('rel', 'noopener noreferrer');
@@ -119,7 +122,7 @@
           return;
         }
         event.preventDefault();
-        openInMaxApp(PROFILE_URL);
+        openInMaxApp(DIRECT_URL);
       });
       return;
     }
@@ -131,7 +134,10 @@
     link.addEventListener('click', function (event) {
       event.preventDefault();
       if (isMobile()) {
-        copyText(PHONE_E164, showMaxModal);
+        copyText(PHONE_E164, function () {
+          openInMaxApp(MAX_HOME);
+          setTimeout(showMaxModal, 400);
+        });
       } else {
         showMaxModal();
       }
