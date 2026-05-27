@@ -42,4 +42,18 @@ if (Test-Path $credPath) {
 }
 
 Write-Host 'AWS profile [yc] configured.' -ForegroundColor Green
-& (Join-Path $PSScriptRoot 'deploy-yandex-s3.ps1')
+
+if (Get-Command gh -ErrorAction SilentlyContinue) {
+  $env:YC_SA_ACCESS_KEY_ID = $env:AWS_ACCESS_KEY_ID
+  $env:YC_SA_SECRET_ACCESS_KEY = $env:AWS_SECRET_ACCESS_KEY
+  gh secret set YC_SA_ACCESS_KEY_ID --body $env:AWS_ACCESS_KEY_ID 2>$null
+  gh secret set YC_SA_SECRET_ACCESS_KEY --body $env:AWS_SECRET_ACCESS_KEY 2>$null
+  Write-Host 'GitHub secrets updated (if repo access allows).' -ForegroundColor Cyan
+}
+
+$pyDeploy = Join-Path $PSScriptRoot 'deploy-yandex-boto3.py'
+if (Test-Path $pyDeploy) {
+  python $pyDeploy
+} else {
+  & (Join-Path $PSScriptRoot 'deploy-yandex-s3.ps1')
+}
