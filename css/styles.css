@@ -306,11 +306,13 @@ body.page-home .yodyear p:first-of-type {
   border-radius: 0.65rem;
   box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
   object-fit: contain;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  filter: saturate(0.7) brightness(0.95);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
 }
 .social a:hover .social-logo-max {
   transform: scale(1.06);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  filter: saturate(0.85) brightness(1);
 }
 
 h1, h2 {
