@@ -1,5 +1,5 @@
 (function () {
-  var PHONE = '79615305504';
+  var PHONE = '79882472355';
   var APP_HTTPS = 'https://max.ru/chat?phone=' + PHONE;
   var WEB_HTTPS = 'https://web.max.ru/chat?phone=' + PHONE;
   var SCHEME = 'max://max.ru/chat?phone=%2B' + PHONE;
