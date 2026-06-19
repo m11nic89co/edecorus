@@ -14,59 +14,72 @@ on:
           - all-vaza-vazon
 
 jobs:
-  deploy:
+  deploy-vaza:
+    if: inputs.site == 'vaza.com.ru' || inputs.site == 'all-vaza-vazon'
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - site: vaza.com.ru
-            repo: vaza.com.ru
-          - site: vazon.com.ru
-            repo: vazon.com.ru
-          - site: edecorus.ru
-            repo: edecorus
-    if: >-
-      inputs.site == matrix.site ||
-      (inputs.site == 'all-vaza-vazon' && (matrix.site == 'vaza.com.ru' || matrix.site == 'vazon.com.ru'))
     steps:
-      - name: Checkout ${{ matrix.repo }}
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          repository: m11nic89co/${{ matrix.repo }}
+          repository: m11nic89co/vaza.com.ru
           ref: main
-
-      - name: Configure AWS CLI for Yandex Object Storage
+      - name: Deploy vaza.com.ru
+        env:
+          YC_SA_ACCESS_KEY_ID: ${{ secrets.YC_SA_ACCESS_KEY_ID }}
+          YC_SA_SECRET_ACCESS_KEY: ${{ secrets.YC_SA_SECRET_ACCESS_KEY }}
         run: |
           pip install awscli
-          aws configure set aws_access_key_id "${{ secrets.YC_SA_ACCESS_KEY_ID }}"
-          aws configure set aws_secret_access_key "${{ secrets.YC_SA_SECRET_ACCESS_KEY }}"
+          aws configure set aws_access_key_id "${YC_SA_ACCESS_KEY_ID}"
+          aws configure set aws_secret_access_key "${YC_SA_SECRET_ACCESS_KEY}"
           aws configure set default.region ru-central1
-
-      - name: Sync to s3://${{ matrix.site }}
-        run: |
-          EXCLUDES=(
-            --exclude '.git/*'
-            --exclude '.github/*'
-            --exclude '.vscode/*'
-            --exclude '.cursor/*'
-            --exclude 'scripts/*'
-            --exclude 'drive-archive/*'
-            --exclude 'docs/*'
-            --exclude '*.md'
-            --exclude 'clone.ps1'
-            --exclude '.gitignore'
-            --exclude 'CONTEXT.md'
-            --exclude '*.zip'
-            --exclude '.DS_Store'
-            --exclude 'CNAME'
-          )
-
-          aws s3 sync . "s3://${{ matrix.site }}" \
+          aws s3 sync . s3://vaza.com.ru \
             --endpoint-url https://storage.yandexcloud.net \
             --delete \
-            "${EXCLUDES[@]}"
+            --exclude '.git/*' --exclude '.github/*' --exclude '*.md' \
+            --exclude '.gitignore' --exclude '*.zip' --exclude '.DS_Store'
+          curl -fsI http://vaza.com.ru.website.yandexcloud.net/ | head -5
 
-      - name: Verify bucket URL
+  deploy-vazon:
+    if: inputs.site == 'vazon.com.ru' || inputs.site == 'all-vaza-vazon'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: m11nic89co/vazon.com.ru
+          ref: main
+      - name: Deploy vazon.com.ru
+        env:
+          YC_SA_ACCESS_KEY_ID: ${{ secrets.YC_SA_ACCESS_KEY_ID }}
+          YC_SA_SECRET_ACCESS_KEY: ${{ secrets.YC_SA_SECRET_ACCESS_KEY }}
         run: |
-          curl -fsI "http://${{ matrix.site }}.website.yandexcloud.net/" | head -5
+          pip install awscli
+          aws configure set aws_access_key_id "${YC_SA_ACCESS_KEY_ID}"
+          aws configure set aws_secret_access_key "${YC_SA_SECRET_ACCESS_KEY}"
+          aws configure set default.region ru-central1
+          aws s3 sync . s3://vazon.com.ru \
+            --endpoint-url https://storage.yandexcloud.net \
+            --delete \
+            --exclude '.git/*' --exclude '.github/*' --exclude 'CNAME'
+          curl -fsI http://vazon.com.ru.website.yandexcloud.net/ | head -5
+
+  deploy-edecorus:
+    if: inputs.site == 'edecorus.ru'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy edecorus.ru
+        env:
+          YC_SA_ACCESS_KEY_ID: ${{ secrets.YC_SA_ACCESS_KEY_ID }}
+          YC_SA_SECRET_ACCESS_KEY: ${{ secrets.YC_SA_SECRET_ACCESS_KEY }}
+        run: |
+          pip install awscli
+          aws configure set aws_access_key_id "${YC_SA_ACCESS_KEY_ID}"
+          aws configure set aws_secret_access_key "${YC_SA_SECRET_ACCESS_KEY}"
+          aws configure set default.region ru-central1
+          aws s3 sync . s3://edecorus.ru \
+            --endpoint-url https://storage.yandexcloud.net \
+            --delete \
+            --exclude '.git/*' --exclude '.github/*' --exclude '.vscode/*' \
+            --exclude '.cursor/*' --exclude 'scripts/*' --exclude 'drive-archive/*' \
+            --exclude 'docs/*' --exclude '*.md' --exclude 'clone.ps1' \
+            --exclude '.gitignore' --exclude 'CONTEXT.md' --exclude 'CNAME'
+          curl -fsI http://edecorus.ru.website.yandexcloud.net/ | head -5
