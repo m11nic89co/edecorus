@@ -31,12 +31,18 @@ jobs:
           aws configure set aws_access_key_id "${YC_SA_ACCESS_KEY_ID}"
           aws configure set aws_secret_access_key "${YC_SA_SECRET_ACCESS_KEY}"
           aws configure set default.region ru-central1
-          aws s3 sync . s3://vaza.com.ru \
-            --endpoint-url https://storage.yandexcloud.net \
+          ENDPOINT=https://storage.yandexcloud.net
+          BUCKET=vaza.com.ru
+          aws s3 mb "s3://${BUCKET}" --endpoint-url "$ENDPOINT" 2>/dev/null || true
+          aws s3api put-bucket-website --bucket "$BUCKET" --endpoint-url "$ENDPOINT" \
+            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}'
+          aws s3 sync . "s3://${BUCKET}" \
+            --endpoint-url "$ENDPOINT" \
             --delete \
+            --acl public-read \
             --exclude '.git/*' --exclude '.github/*' --exclude '*.md' \
             --exclude '.gitignore' --exclude '*.zip' --exclude '.DS_Store'
-          curl -fsI http://vaza.com.ru.website.yandexcloud.net/ | head -5
+          curl -fsI "http://${BUCKET}.website.yandexcloud.net/" | head -5
 
   deploy-vazon:
     if: inputs.site == 'vazon.com.ru' || inputs.site == 'all-vaza-vazon'
@@ -55,11 +61,17 @@ jobs:
           aws configure set aws_access_key_id "${YC_SA_ACCESS_KEY_ID}"
           aws configure set aws_secret_access_key "${YC_SA_SECRET_ACCESS_KEY}"
           aws configure set default.region ru-central1
-          aws s3 sync . s3://vazon.com.ru \
-            --endpoint-url https://storage.yandexcloud.net \
+          ENDPOINT=https://storage.yandexcloud.net
+          BUCKET=vazon.com.ru
+          aws s3 mb "s3://${BUCKET}" --endpoint-url "$ENDPOINT" 2>/dev/null || true
+          aws s3api put-bucket-website --bucket "$BUCKET" --endpoint-url "$ENDPOINT" \
+            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}'
+          aws s3 sync . "s3://${BUCKET}" \
+            --endpoint-url "$ENDPOINT" \
             --delete \
+            --acl public-read \
             --exclude '.git/*' --exclude '.github/*' --exclude 'CNAME'
-          curl -fsI http://vazon.com.ru.website.yandexcloud.net/ | head -5
+          curl -fsI "http://${BUCKET}.website.yandexcloud.net/" | head -5
 
   deploy-edecorus:
     if: inputs.site == 'edecorus.ru'
@@ -75,11 +87,17 @@ jobs:
           aws configure set aws_access_key_id "${YC_SA_ACCESS_KEY_ID}"
           aws configure set aws_secret_access_key "${YC_SA_SECRET_ACCESS_KEY}"
           aws configure set default.region ru-central1
-          aws s3 sync . s3://edecorus.ru \
-            --endpoint-url https://storage.yandexcloud.net \
+          ENDPOINT=https://storage.yandexcloud.net
+          BUCKET=edecorus.ru
+          aws s3 mb "s3://${BUCKET}" --endpoint-url "$ENDPOINT" 2>/dev/null || true
+          aws s3api put-bucket-website --bucket "$BUCKET" --endpoint-url "$ENDPOINT" \
+            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}'
+          aws s3 sync . "s3://${BUCKET}" \
+            --endpoint-url "$ENDPOINT" \
             --delete \
+            --acl public-read \
             --exclude '.git/*' --exclude '.github/*' --exclude '.vscode/*' \
             --exclude '.cursor/*' --exclude 'scripts/*' --exclude 'drive-archive/*' \
             --exclude 'docs/*' --exclude '*.md' --exclude 'clone.ps1' \
             --exclude '.gitignore' --exclude 'CONTEXT.md' --exclude 'CNAME'
-          curl -fsI http://edecorus.ru.website.yandexcloud.net/ | head -5
+          curl -fsI "http://${BUCKET}.website.yandexcloud.net/" | head -5
