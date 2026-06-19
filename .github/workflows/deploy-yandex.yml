@@ -1,0 +1,72 @@
+name: Deploy static site to Yandex Cloud
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: Which site to deploy
+        required: true
+        type: choice
+        options:
+          - vaza.com.ru
+          - vazon.com.ru
+          - edecorus.ru
+          - all-vaza-vazon
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - site: vaza.com.ru
+            repo: vaza.com.ru
+          - site: vazon.com.ru
+            repo: vazon.com.ru
+          - site: edecorus.ru
+            repo: edecorus
+    if: >-
+      inputs.site == matrix.site ||
+      (inputs.site == 'all-vaza-vazon' && (matrix.site == 'vaza.com.ru' || matrix.site == 'vazon.com.ru'))
+    steps:
+      - name: Checkout ${{ matrix.repo }}
+        uses: actions/checkout@v4
+        with:
+          repository: m11nic89co/${{ matrix.repo }}
+          ref: main
+
+      - name: Configure AWS CLI for Yandex Object Storage
+        run: |
+          pip install awscli
+          aws configure set aws_access_key_id "${{ secrets.YC_SA_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.YC_SA_SECRET_ACCESS_KEY }}"
+          aws configure set default.region ru-central1
+
+      - name: Sync to s3://${{ matrix.site }}
+        run: |
+          EXCLUDES=(
+            --exclude '.git/*'
+            --exclude '.github/*'
+            --exclude '.vscode/*'
+            --exclude '.cursor/*'
+            --exclude 'scripts/*'
+            --exclude 'drive-archive/*'
+            --exclude 'docs/*'
+            --exclude '*.md'
+            --exclude 'clone.ps1'
+            --exclude '.gitignore'
+            --exclude 'CONTEXT.md'
+            --exclude '*.zip'
+            --exclude '.DS_Store'
+            --exclude 'CNAME'
+          )
+
+          aws s3 sync . "s3://${{ matrix.site }}" \
+            --endpoint-url https://storage.yandexcloud.net \
+            --delete \
+            "${EXCLUDES[@]}"
+
+      - name: Verify bucket URL
+        run: |
+          curl -fsI "http://${{ matrix.site }}.website.yandexcloud.net/" | head -5
