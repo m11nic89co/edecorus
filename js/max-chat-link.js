@@ -91,6 +91,11 @@
     }
   }
 
+  var modalPhone = document.getElementById('maxModalPhone');
+  if (modalPhone) {
+    modalPhone.textContent = PHONE_DISPLAY;
+  }
+
   document.querySelectorAll('[data-max-chat]').forEach(function (link) {
     bindModalActions();
 
@@ -121,6 +126,10 @@
         });
       } else {
         showMaxModal();
+        var copyBtn = document.getElementById('btnMaxCopyPhone');
+        if (copyBtn) {
+          copyBtn.click();
+        }
       }
     });
   });

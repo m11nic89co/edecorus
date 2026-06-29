@@ -1,6 +1,13 @@
 name: Deploy static site to Yandex Cloud
 
 on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'drive-archive/**'
+      - 'scripts/**'
   workflow_dispatch:
     inputs:
       site:
@@ -15,7 +22,7 @@ on:
 
 jobs:
   deploy-vaza:
-    if: inputs.site == 'vaza.com.ru' || inputs.site == 'all-vaza-vazon'
+    if: github.event_name == 'workflow_dispatch' && (inputs.site == 'vaza.com.ru' || inputs.site == 'all-vaza-vazon')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +42,7 @@ jobs:
           BUCKET=vaza.com.ru
           aws s3 mb "s3://${BUCKET}" --endpoint-url "$ENDPOINT" 2>/dev/null || true
           aws s3api put-bucket-website --bucket "$BUCKET" --endpoint-url "$ENDPOINT" \
-            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}'
+            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}' || true
           aws s3 sync . "s3://${BUCKET}" \
             --endpoint-url "$ENDPOINT" \
             --delete \
@@ -45,7 +52,7 @@ jobs:
           curl -fsI "http://${BUCKET}.website.yandexcloud.net/" | head -5
 
   deploy-vazon:
-    if: inputs.site == 'vazon.com.ru' || inputs.site == 'all-vaza-vazon'
+    if: github.event_name == 'workflow_dispatch' && (inputs.site == 'vazon.com.ru' || inputs.site == 'all-vaza-vazon')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -65,7 +72,7 @@ jobs:
           BUCKET=vazon.com.ru
           aws s3 mb "s3://${BUCKET}" --endpoint-url "$ENDPOINT" 2>/dev/null || true
           aws s3api put-bucket-website --bucket "$BUCKET" --endpoint-url "$ENDPOINT" \
-            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}'
+            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}' || true
           aws s3 sync . "s3://${BUCKET}" \
             --endpoint-url "$ENDPOINT" \
             --delete \
@@ -74,7 +81,7 @@ jobs:
           curl -fsI "http://${BUCKET}.website.yandexcloud.net/" | head -5
 
   deploy-edecorus:
-    if: inputs.site == 'edecorus.ru'
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.site == 'edecorus.ru')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -83,15 +90,26 @@ jobs:
           YC_SA_ACCESS_KEY_ID: ${{ secrets.YC_SA_ACCESS_KEY_ID }}
           YC_SA_SECRET_ACCESS_KEY: ${{ secrets.YC_SA_SECRET_ACCESS_KEY }}
         run: |
+          set -e
           pip install awscli
           aws configure set aws_access_key_id "${YC_SA_ACCESS_KEY_ID}"
           aws configure set aws_secret_access_key "${YC_SA_SECRET_ACCESS_KEY}"
           aws configure set default.region ru-central1
           ENDPOINT=https://storage.yandexcloud.net
           BUCKET=edecorus.ru
+
           aws s3 mb "s3://${BUCKET}" --endpoint-url "$ENDPOINT" 2>/dev/null || true
+
           aws s3api put-bucket-website --bucket "$BUCKET" --endpoint-url "$ENDPOINT" \
-            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}'
+            --website-configuration '{"IndexDocument":{"Suffix":"index.html"},"ErrorDocument":{"Key":"404.html"}}' \
+            && echo "Website hosting configured" \
+            || echo "WARN: put-bucket-website skipped (configure in YC console if needed)"
+
+          POLICY='{"Version":"2012-10-17","Statement":[{"Sid":"PublicRead","Effect":"Allow","Principal":"*","Action":["s3:GetObject"],"Resource":["arn:aws:s3:::'"${BUCKET}"'/*"]}]}'
+          aws s3api put-bucket-policy --bucket "$BUCKET" --endpoint-url "$ENDPOINT" --policy "$POLICY" \
+            && echo "Bucket policy set" \
+            || echo "WARN: put-bucket-policy skipped (enable public read in YC console)"
+
           aws s3 sync . "s3://${BUCKET}" \
             --endpoint-url "$ENDPOINT" \
             --delete \
@@ -99,5 +117,22 @@ jobs:
             --exclude '.git/*' --exclude '.github/*' --exclude '.vscode/*' \
             --exclude '.cursor/*' --exclude 'scripts/*' --exclude 'drive-archive/*' \
             --exclude 'docs/*' --exclude '*.md' --exclude 'clone.ps1' \
-            --exclude '.gitignore' --exclude 'CONTEXT.md' --exclude 'CNAME'
-          curl -fsI "http://${BUCKET}.website.yandexcloud.net/" | head -5
+            --exclude '.gitignore' --exclude 'CONTEXT.md' --exclude 'CNAME' \
+            --exclude 'SETUP-START.html' \
+            || aws s3 sync . "s3://${BUCKET}" \
+            --endpoint-url "$ENDPOINT" \
+            --delete \
+            --exclude '.git/*' --exclude '.github/*' --exclude '.vscode/*' \
+            --exclude '.cursor/*' --exclude 'scripts/*' --exclude 'drive-archive/*' \
+            --exclude 'docs/*' --exclude '*.md' --exclude 'clone.ps1' \
+            --exclude '.gitignore' --exclude 'CONTEXT.md' --exclude 'CNAME' \
+            --exclude 'SETUP-START.html'
+
+          echo "Uploaded files:"
+          aws s3 ls "s3://${BUCKET}/" --endpoint-url "$ENDPOINT" | head -20
+
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://${BUCKET}.website.yandexcloud.net/")
+          echo "Test URL http://${BUCKET}.website.yandexcloud.net/ -> HTTP ${HTTP_CODE}"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "WARN: bucket website returned ${HTTP_CODE}. Check public access in Yandex Cloud console."
+          fi

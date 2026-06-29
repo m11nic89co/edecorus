@@ -75,7 +75,7 @@ def main():
             extra['ContentType'] = 'text/css; charset=utf-8'
         elif rel.endswith('.js'):
             extra['ContentType'] = 'application/javascript; charset=utf-8'
-        s3.upload_file(str(path), BUCKET, rel, ExtraArgs=extra)
+        s3.upload_file(str(path), BUCKET, rel, ExtraArgs={**extra, 'ACL': 'public-read'})
         uploaded += 1
         print(rel)
 
