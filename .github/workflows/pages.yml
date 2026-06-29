@@ -34,7 +34,6 @@ jobs:
             --exclude 'scripts' \
             --exclude 'drive-archive' \
             --exclude 'docs' \
-            --exclude 'CNAME' \
             --exclude '*.md' \
             --exclude 'clone.ps1' \
             --exclude 'SETUP-START.html' \
