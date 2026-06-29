@@ -83,6 +83,7 @@ jobs:
   deploy-edecorus:
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.site == 'edecorus.ru')
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: Deploy edecorus.ru
