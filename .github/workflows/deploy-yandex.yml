@@ -91,7 +91,6 @@ jobs:
           YC_SA_ACCESS_KEY_ID: ${{ secrets.YC_SA_ACCESS_KEY_ID }}
           YC_SA_SECRET_ACCESS_KEY: ${{ secrets.YC_SA_SECRET_ACCESS_KEY }}
         run: |
-          set -e
           pip install awscli
           aws configure set aws_access_key_id "${YC_SA_ACCESS_KEY_ID}"
           aws configure set aws_secret_access_key "${YC_SA_SECRET_ACCESS_KEY}"
@@ -111,26 +110,51 @@ jobs:
             && echo "Bucket policy set" \
             || echo "WARN: put-bucket-policy skipped (enable public read in YC console)"
 
-          aws s3 sync . "s3://${BUCKET}" \
-            --endpoint-url "$ENDPOINT" \
-            --delete \
-            --acl public-read \
-            --exclude '.git/*' --exclude '.github/*' --exclude '.vscode/*' \
-            --exclude '.cursor/*' --exclude 'scripts/*' --exclude 'drive-archive/*' \
-            --exclude 'docs/*' --exclude '*.md' --exclude 'clone.ps1' \
-            --exclude '.gitignore' --exclude 'CONTEXT.md' --exclude 'CNAME' \
-            --exclude 'SETUP-START.html' \
-            || aws s3 sync . "s3://${BUCKET}" \
-            --endpoint-url "$ENDPOINT" \
-            --delete \
-            --exclude '.git/*' --exclude '.github/*' --exclude '.vscode/*' \
-            --exclude '.cursor/*' --exclude 'scripts/*' --exclude 'drive-archive/*' \
-            --exclude 'docs/*' --exclude '*.md' --exclude 'clone.ps1' \
-            --exclude '.gitignore' --exclude 'CONTEXT.md' --exclude 'CNAME' \
-            --exclude 'SETUP-START.html'
+          upload_file() {
+            local file="$1"
+            local key="${file#./}"
+            local ctype
+            case "$file" in
+              *.html) ctype="text/html; charset=utf-8" ;;
+              *.css) ctype="text/css; charset=utf-8" ;;
+              *.js) ctype="application/javascript; charset=utf-8" ;;
+              *.json) ctype="application/json; charset=utf-8" ;;
+              *.xml) ctype="application/xml; charset=utf-8" ;;
+              *.txt) ctype="text/plain; charset=utf-8" ;;
+              *.svg) ctype="image/svg+xml" ;;
+              *.webp) ctype="image/webp" ;;
+              *.png) ctype="image/png" ;;
+              *.jpg|*.jpeg) ctype="image/jpeg" ;;
+              *.ico) ctype="image/x-icon" ;;
+              *) ctype="application/octet-stream" ;;
+            esac
+            aws s3api put-object \
+              --bucket "$BUCKET" \
+              --key "$key" \
+              --body "$file" \
+              --acl public-read \
+              --content-type "$ctype" \
+              --endpoint-url "$ENDPOINT"
+            echo "Uploaded: $key"
+          }
 
-          echo "Uploaded files:"
-          aws s3 ls "s3://${BUCKET}/" --endpoint-url "$ENDPOINT" | head -20
+          while IFS= read -r -d '' file; do
+            upload_file "$file" || echo "WARN: failed to upload $file"
+          done < <(find . -type f \
+            ! -path './.git/*' \
+            ! -path './.github/*' \
+            ! -path './.vscode/*' \
+            ! -path './.cursor/*' \
+            ! -path './scripts/*' \
+            ! -path './drive-archive/*' \
+            ! -path './docs/*' \
+            ! -name '*.md' \
+            ! -name 'clone.ps1' \
+            ! -name '.gitignore' \
+            ! -name 'CONTEXT.md' \
+            ! -name 'CNAME' \
+            ! -name 'SETUP-START.html' \
+            -print0)
 
           HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://${BUCKET}.website.yandexcloud.net/")
           echo "Test URL http://${BUCKET}.website.yandexcloud.net/ -> HTTP ${HTTP_CODE}"
