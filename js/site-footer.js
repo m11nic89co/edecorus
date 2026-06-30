@@ -5,11 +5,11 @@
 
   var footerHtml =
     '<footer class="site-footer text-white">' +
-      '<div class="container site-footer__inner">' +
+      '<div class="site-footer__inner">' +
         '<p class="site-footer__legal">&copy; 2017&ndash;2026 Торговый Дом &laquo;Ёдекор&raquo;. ОГРН 1172375087125.</p>' +
         '<p class="site-footer__rights">Все права защищены.</p>' +
         '<p class="site-footer__privacy">' +
-          '<a href="#" class="site-footer__link" data-toggle="modal" data-target="#privacyModal">' +
+          '<a href="#" class="site-footer__link" data-modal-open="#privacyModal">' +
             'Политика конфиденциальности. Согласие на обработку данных.' +
           '</a>' +
         '</p>' +
@@ -17,16 +17,14 @@
     '</footer>';
 
   var modalHtml =
-    '<div class="modal fade" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalLabel" aria-hidden="true">' +
-      '<div class="modal-dialog modal-dialog-scrollable" role="document">' +
-        '<div class="modal-content">' +
-          '<div class="modal-header">' +
-            '<h5 class="modal-title" id="privacyModalLabel">Политика конфиденциальности. Согласие на обработку данных.</h5>' +
-            '<button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">' +
-              '<span aria-hidden="true">&times;</span>' +
-            '</button>' +
+    '<div class="modal" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalLabel" aria-hidden="true">' +
+      '<div class="modal__dialog modal__dialog--scrollable" role="document">' +
+        '<div class="modal__content">' +
+          '<div class="modal__header">' +
+            '<h5 class="modal__title" id="privacyModalLabel">Политика конфиденциальности. Согласие на обработку данных.</h5>' +
+            '<button type="button" class="modal__close" data-modal-dismiss aria-label="Закрыть">&times;</button>' +
           '</div>' +
-          '<div class="modal-body">' +
+          '<div class="modal__body">' +
             '<p>Согласие на обработку данных:<br>' +
             'Оставляя заявку на сайте, вы даёте согласие ООО &laquo;Ёдекор&raquo; на обработку ваших персональных данных (ФИО, контактные данные) в соответствии с Федеральным законом №152-ФЗ &laquo;О персональных данных&raquo;.</p>' +
             '<p><strong>Политика конфиденциальности</strong></p>' +

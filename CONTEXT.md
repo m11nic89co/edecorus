@@ -63,9 +63,9 @@ $GoogleDriveRoot = 'C:\Users\AM\MYDISK\Yodekor\edecorus'
 
 ## Технологии
 
-- Статический сайт: HTML + Bootstrap 4.5.2 (CDN) + `css/styles.css`
+- Статический сайт: HTML + `css/styles.css` / `css/home.css` (без Bootstrap)
 - Без сборщика (webpack/vite нет)
-- JS: `js/site-footer.js`, `js/max-config.js`, `js/max-chat-link.js`
+- JS: `js/site-footer.js`, `js/site-modal.js`, `js/max-config.js`, `js/max-chat-link.js`
 - Шрифты: Google Fonts (Playfair Display), Font Awesome (kit)
 - Метрика: Яндекс.Метрика на страницах с полным шаблоном
 - Prettier в `.vscode/settings.json` (format on save)
@@ -79,12 +79,11 @@ $GoogleDriveRoot = 'C:\Users\AM\MYDISK\Yodekor\edecorus'
 | `index.html` | Главная | да | `site-footer.js` |
 | `contact.html` | Контакты, MAX, реквизиты | да | да |
 | `vacancies.html` | Вакансии | да | да |
-| `kapelnyj-poliv.html` | Каталог | нет | да |
-| `kovannye-podstavki-vazony.html` | Каталог | нет | да |
-| `nabor-dlya-hraneniya.html` | Каталог | нет | да |
-| `aksessuary-dlya-hraneniya-instrumentov.html` | Каталог | нет | да |
+| `kapelnyj-poliv.html` | Внутренняя (не SEO) | нет | да |
+| `nabor-dlya-hraneniya.html` | Внутренняя (не SEO) | нет | да |
+| `aksessuary-dlya-hraneniya-instrumentov.html` | Внутренняя (не SEO) | нет | да |
 
-Каталог: класс `page-catalog`, единый футер через `site-footer.js`.
+Внутренние страницы с `noindex`, без навигации — для QR/печати, не публичный каталог.
 
 ---
 

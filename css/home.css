@@ -13,7 +13,11 @@ body {
 }
 
 body {
-  background: url(images/storer1.jpg) no-repeat center;
+  background: url(images/storer1.webp) no-repeat center;
+  background-image: image-set(
+    url('images/storer1.webp') type('image/webp'),
+    url('images/storer1.jpg') type('image/jpeg')
+  );
   min-width: 100%;
   min-height: 100vh;
   background-size: cover;
@@ -263,46 +267,54 @@ footer.site-footer {
 }
 
 .modal.show {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.75rem 1rem;
 }
 
-.modal-dialog {
+.modal__dialog {
+  width: 100%;
   max-width: 640px;
-  margin: 1.75rem auto;
-  padding: 0 1rem;
+  margin: 0 auto;
 }
 
-.modal-content {
+.modal__dialog--scrollable .modal__body {
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+}
+
+.modal__content {
   background: #fff;
   color: #212529;
   border-radius: 0.3rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.35);
 }
 
-.modal-header,
-.modal-body {
+.modal__header,
+.modal__body {
   padding: 1rem 1.25rem;
 }
 
-.modal-header {
+.modal__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   border-bottom: 1px solid #dee2e6;
 }
 
-.modal-title {
+.modal__title {
   margin: 0;
   font-size: 1.1rem;
   line-height: 1.35;
 }
 
-.modal-body p {
+.modal__body p {
   margin: 0 0 1rem;
   line-height: 1.6;
 }
 
-.close {
+.modal__close {
   border: 0;
   background: transparent;
   font-size: 1.5rem;

@@ -39,7 +39,7 @@ winget install Git.Git
 - `contact.html` — контакты
 - `vacancies.html` — вакансии
 - `css/` — стили и изображения
-- Страницы каталога: `aksessuary-dlya-hraneniya-instrumentov.html`, `kapelnyj-poliv.html` и др.
+- Внутренние страницы (не для SEO): `kapelnyj-poliv.html`, `nabor-dlya-hraneniya.html`, `aksessuary-dlya-hraneniya-instrumentov.html`
 
 ## Контекст для разработки
 

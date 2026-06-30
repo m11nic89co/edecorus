@@ -55,11 +55,16 @@
 
   function showMaxModal() {
     var modal = document.getElementById('maxChatModal');
-    if (!modal || !window.jQuery) {
+    if (!modal) {
       openInMaxApp(MAX_HOME);
       return;
     }
-    window.jQuery(modal).modal('show');
+    if (window.EDECORUS_MODAL && window.EDECORUS_MODAL.open) {
+      window.EDECORUS_MODAL.open('maxChatModal');
+      return;
+    }
+    modal.classList.add('show');
+    document.body.classList.add('modal-open');
   }
 
   function bindModalActions() {
