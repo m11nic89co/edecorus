@@ -1,82 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 
 <head>
-
-	<!-- Required meta tags -->
 	<meta charset="utf-8">
-
-	<!-- <meta name="viewport" content="width=device-width"> -->
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<meta content="true" name="HandheldFriendly" />
 	<meta content="width" name="MobileOptimized" />
 	<meta content="yes" name="apple-mobile-web-app-capable" />
 	<meta name="robots" content="noindex, nofollow">
 
-	<!-- Favicon -->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-		crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-		crossorigin="anonymous"></script>
-
 	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/catalog.css">
 
-
-	<!-- Fonts -->
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-
-
-
-
+	<title>Аксессуары для хранения — внутренняя страница</title>
 </head>
 
 <body class="page-catalog">
-	<div class="page-catalog__main" style="text-align: center;">
-		<h2 style="margin-top: 50px;">"Аксессуары для хранения инструментов"</h2>
-		<h3 style="margin: 20px 0 30px 0;">Информация по комплекту</h3>
-		<div class="Accesories">
-			<br>
-			<hr>
-			<h4>В набор входит:</h4>
-			<img src="css/images/v nabor vhodit.jpg" class="img-fluid" alt="Состав набора">
-		</div>
-		<br>
-		<hr>
-		<br>
-		<h4>1. Держатель для ключей</h4>
-		<img src="css/images/derzhatel-dlya-klyuchej.jpg" class="img-fluid" alt="Держатель для ключей">
-		<br>
-		<hr>
-		<h4>2. Держатель для отверток</h4>
-		<img src="css/images/derzhatel-dlya-otvertok.jpg" class="img-fluid" alt="Держатель для отверток">
-		<br>
-		<hr>
-		<h4>3. Зажим</h4>
-		<img src="css/images/zazhim.jpg" class="img-fluid" alt="Зажим">
+	<div class="page-catalog__main">
+		<h2>«Аксессуары для хранения инструментов»</h2>
+		<h3>Информация по комплекту</h3>
 
-		<br>
-		<hr>
-		<h4>4. Крючок</h4>
-		<img src="css/images/kryuchok.jpg" class="img-fluid" alt="Крючок">
+		<div class="page-catalog__section">
+			<h4>В набор входит:</h4>
+			<picture>
+				<source type="image/webp" srcset="css/images/v-nabor-vhodit.webp">
+				<img src="css/images/v-nabor-vhodit.jpg" class="catalog-img" alt="Состав набора">
+			</picture>
+		</div>
+
+		<div class="page-catalog__section">
+			<h4>1. Держатель для ключей</h4>
+			<picture>
+				<source type="image/webp" srcset="css/images/derzhatel-dlya-klyuchej.webp">
+				<img src="css/images/derzhatel-dlya-klyuchej.jpg" class="catalog-img" alt="Держатель для ключей">
+			</picture>
+		</div>
+
+		<div class="page-catalog__section">
+			<h4>2. Держатель для отвёрток</h4>
+			<picture>
+				<source type="image/webp" srcset="css/images/derzhatel-dlya-otvertok.webp">
+				<img src="css/images/derzhatel-dlya-otvertok.jpg" class="catalog-img" alt="Держатель для отвёрток">
+			</picture>
+		</div>
+
+		<div class="page-catalog__section">
+			<h4>3. Зажим</h4>
+			<picture>
+				<source type="image/webp" srcset="css/images/zazhim.webp">
+				<img src="css/images/zazhim.jpg" class="catalog-img" alt="Зажим">
+			</picture>
+		</div>
+
+		<div class="page-catalog__section">
+			<h4>4. Крючок</h4>
+			<picture>
+				<source type="image/webp" srcset="css/images/kryuchok.webp">
+				<img src="css/images/kryuchok.jpg" class="catalog-img" alt="Крючок">
+			</picture>
+		</div>
 	</div>
 
 	<div id="site-footer-root"></div>
-	<script src="js/site-footer.js"></script>
+	<script src="js/site-footer.js" defer></script>
+	<script src="js/site-modal.js" defer></script>
 </body>
 
 </html>
