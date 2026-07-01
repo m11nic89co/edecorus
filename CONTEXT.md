@@ -63,7 +63,7 @@ $GoogleDriveRoot = 'C:\Users\AM\MYDISK\Yodekor\edecorus'
 
 ## Технологии
 
-- Статический сайт: HTML + `css/styles.css` / `css/home.css` (без Bootstrap)
+- Статический сайт: HTML + единый `css/site.css`
 - Без сборщика (webpack/vite нет)
 - JS: `js/site-footer.js`, `js/site-modal.js`, `js/max-config.js`, `js/max-chat-link.js`
 - Шрифты: Google Fonts (Playfair Display), Font Awesome (kit)
@@ -137,7 +137,7 @@ $GoogleDriveRoot = 'C:\Users\AM\MYDISK\Yodekor\edecorus'
 js/max-config.js       — MAX: profileUrl, телефон
 js/max-chat-link.js    — клик MAX, intent, модалка
 js/site-footer.js      — футер + политика
-css/styles.css         — стили, MAX, футер
+css/site.css           — единые стили сайта
 contact.html           — контакты, MAX, реквизиты
 CONTEXT.md             — этот файл
 .gitignore             — workspace-paths.local.ps1 и др.
