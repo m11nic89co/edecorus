@@ -83,7 +83,7 @@
       btnCopy.addEventListener('click', function () {
         copyText(PHONE_E164, function () {
           var orig = btnCopy.innerHTML;
-          btnCopy.innerHTML = '<i class="fas fa-check"></i> Скопировано';
+          btnCopy.innerHTML = 'Скопировано';
           btnCopy.classList.add('btn-success');
           btnCopy.classList.remove('btn-secondary');
           setTimeout(function () {

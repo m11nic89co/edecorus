@@ -1,7 +1,7 @@
 (function () {
   function openModal(id) {
     var modal = document.getElementById(id);
-    if (!modal) {
+    if (!modal || !modal.classList.contains('modal')) {
       return;
     }
     modal.classList.add('show');
@@ -20,14 +20,6 @@
     }
   }
 
-  function getModalIdFromOpener(opener) {
-    var target = opener.getAttribute('data-modal-open') || opener.getAttribute('data-target');
-    if (!target) {
-      return null;
-    }
-    return target.charAt(0) === '#' ? target.slice(1) : target;
-  }
-
   var toggler = document.querySelector('.navbar-toggler');
   var collapse = document.querySelector('.navbar-collapse');
   if (toggler && collapse) {
@@ -38,14 +30,17 @@
   }
 
   document.addEventListener('click', function (event) {
-    var opener = event.target.closest('[data-modal-open], [data-target^="#"]');
-    if (opener && getModalIdFromOpener(opener)) {
-      event.preventDefault();
-      openModal(getModalIdFromOpener(opener));
+    var opener = event.target.closest('[data-modal-open]');
+    if (opener) {
+      var target = opener.getAttribute('data-modal-open');
+      if (target && target.charAt(0) === '#') {
+        event.preventDefault();
+        openModal(target.slice(1));
+      }
       return;
     }
 
-    if (event.target.closest('[data-modal-dismiss], [data-dismiss="modal"]')) {
+    if (event.target.closest('[data-modal-dismiss]')) {
       closeModal(event.target.closest('.modal'));
       return;
     }
