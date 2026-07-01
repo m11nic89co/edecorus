@@ -1,4 +1,5 @@
 User-agent: *
 Crawl-delay: 10
+Disallow: /kapelnyj-poliv.html
 Host: https://edecorus.ru
 Sitemap: https://edecorus.ru/sitemap.xml
