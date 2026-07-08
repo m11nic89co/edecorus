@@ -25,7 +25,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && (inputs.site == 'vaza.com.ru' || inputs.site == 'all-vaza-vazon')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: m11nic89co/vaza.com.ru
           ref: main
@@ -55,7 +55,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && (inputs.site == 'vazon.com.ru' || inputs.site == 'all-vaza-vazon')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: m11nic89co/vazon.com.ru
           ref: main
@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Deploy edecorus.ru
         env:
           YC_SA_ACCESS_KEY_ID: ${{ secrets.YC_SA_ACCESS_KEY_ID }}
