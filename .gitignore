@@ -13,3 +13,6 @@ Desktop.ini
 # Артефакты Google Drive при конфликтах
 *conflicted copy*
 *.driveupload*
+
+# Приватные материалы (договоры банков, персональные данные контактов)
+private/
